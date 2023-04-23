@@ -4,6 +4,7 @@ function TextToSpeech() {
   const [text, setText] = useState('');
   const [audioFile, setAudioFile] = useState(null);
   const [apiKey, setApiKey] = useState('');
+  const [voiceName, setVoiceName] = useState('en-US-Wavenet-I');
   const audioRef = useRef();
 
   const handleSubmit = async (e) => {
@@ -22,7 +23,7 @@ function TextToSpeech() {
             input: { text },
             voice: {
               languageCode: 'en-US',
-              name: 'en-US-Wavenet-I',
+              name: voiceName,
               ssmlGender: 'MALE'
             },
             audioConfig: { audioEncoding: 'MP3' },
@@ -41,13 +42,26 @@ function TextToSpeech() {
     }
   };
 
+  const voiceOptions = [
+    { name: 'en-US-Wavenet-A', label: 'Voice A' },
+    { name: 'en-US-Wavenet-B', label: 'Voice B' },
+    { name: 'en-US-Wavenet-C', label: 'Voice C' },
+    { name: 'en-US-Wavenet-D', label: 'Voice D' },
+    { name: 'en-US-Wavenet-E', label: 'Voice E' },
+    { name: 'en-US-Wavenet-F', label: 'Voice F' },
+    { name: 'en-US-Wavenet-G', label: 'Voice G' },
+    { name: 'en-US-Wavenet-H', label: 'Voice H' },
+    { name: 'en-US-Wavenet-I', label: 'Voice I' },
+    { name: 'en-US-Wavenet-J', label: 'Voice J' },
+  ];
+
   return (
     <div className="container">
       <h1>Text to Speech</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="text">Text:</label>
+          <label htmlFor="text">Text</label>
           <textarea
             className="form-control"
             rows="3"
@@ -58,7 +72,23 @@ function TextToSpeech() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="apiKey">Google API key:</label>
+          <label htmlFor="voiceName">Voice</label>
+          <select
+            className="form-control"
+            id="voiceName"
+            value={voiceName}
+            onChange={(e) => setVoiceName(e.target.value)}
+          >
+            {voiceOptions.map((option) => (
+              <option key={option.name} value={option.name}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="apiKey">Google API key</label>
           <input
             type="password"
             className="form-control"
@@ -68,7 +98,7 @@ function TextToSpeech() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mt-3">
           Submit
         </button>
       </form>
